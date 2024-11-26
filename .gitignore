@@ -10,3 +10,8 @@ __pycache__/
 _build/
 _misc/
 todo.md
+
+server/src/Python-*.tar.xz
+server/src/Python-*/
+server/src/sqlite-autoconf-*/
+server/src/sqlite-autoconf-*.tar.gz
