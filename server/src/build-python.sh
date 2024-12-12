@@ -47,6 +47,8 @@ sudo time make $parallel install
 
 (cd /usr/local/bin && sudo ln -sf python${py_version} python)
 (cd /usr/local/bin && sudo ln -sf pip${py_version} pip)
-sudo chmod -R g+w /usr/local/lib/python${py_version}/site-packages
 hash -r # Make sure the new python is available.
-sudo pip install -U pip
+
+# Set site packages to group-writable so that operator can run pip without sudo which causes warnings.
+sudo chmod -R g+w /usr/local/lib/python${py_version}/site-packages
+pip install -U pip
