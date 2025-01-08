@@ -2,7 +2,7 @@
 
 # See: https://dnf5.readthedocs.io/en/latest/dnf5_plugins/automatic.8.html#automatic-plugin-ref-label.
 
-set -e
+set -ex
 
 echo '# Automatically apply security upgrades only.
 [commands]
