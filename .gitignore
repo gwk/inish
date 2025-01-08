@@ -11,6 +11,8 @@ _build/
 _misc/
 todo.md
 
+server/caddy/download/
+
 server/src/litestream-main.zip
 server/src/litestream-main/
 server/src/Python-*.tar.xz

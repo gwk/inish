@@ -27,9 +27,13 @@ caddy_dl_dir="caddy_${caddy_version}_linux_${caddy_arch}"
 caddy_dl_name="${caddy_dl_dir}.tar.gz"
 caddy_dl_url="https://github.com/caddyserver/caddy/releases/download/${caddy_v_version}/${caddy_dl_name}"
 
-if ! test -f "${caddy_dl_name}"; then
-  curl -L -o "${caddy_dl_name}" "${caddy_dl_url}"
+mkdir -p download
+rm -rf download/*
+
+if ! test -f "download/${caddy_dl_name}"; then
+  curl -L -o "download/${caddy_dl_name}" "${caddy_dl_url}"
 fi
 
-tar -xzf "${caddy_dl_name}"
-sudo install "./caddy" /usr/local/bin
+tar -xzf "download/${caddy_dl_name}" -C download
+
+sudo install "download/caddy" /usr/local/bin
