@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -ex
+set -euo pipefail
+set -x
 
 src_dir=$(dirname $0)
 cd "$src_dir"

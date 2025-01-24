@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 function fail() { echo "$1" >&2; exit 1; }
 

@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
+# Set up the necessary SELinux attributes for caddy to run as a systemd service.
+# We use the existing httpd context for caddy, which is what the rpm package does.
+# The difference is that we run as the caddy service user, from a dedicated directory.
+
 # To see the scripts that rpm runs: `rpm -q --scripts caddy`.
 
-set -ex
+set -euo pipefail
+set -x
 
 bin_path='/usr/local/bin/caddy'
 service_user_path='/service/caddy'

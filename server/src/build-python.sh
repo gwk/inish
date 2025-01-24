@@ -1,6 +1,7 @@
 # Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
-set -ex
+set -euo pipefail
+set -x
 
 fail() { echo "Error: $@" 1>&2; exit 1; }
 

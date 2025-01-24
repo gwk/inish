@@ -2,8 +2,7 @@
 
 # Delete useless classic Unix users and groups.
 
-
-set -e
+set -euo pipefail
 
 unwanted_users=(
   'bin'
