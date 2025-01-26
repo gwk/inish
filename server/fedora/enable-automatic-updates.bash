@@ -5,6 +5,8 @@
 set -euo pipefail
 set -x
 
+sudo dnf install -y dnf5-plugin-automatic
+
 echo '# Automatically apply security upgrades only.
 [commands]
 apply_updates = yes
