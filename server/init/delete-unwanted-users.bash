@@ -28,11 +28,11 @@ unwanted_groups=(
 for user in "${unwanted_users[@]}"; do
   id -u "$user" || continue
   echo "Deleting user: $user"
-  userdel --selinux-user "$user"
+  sudo userdel --selinux-user "$user"
 done
 
 for group in "${unwanted_groups[@]}"; do
   getent group "$group" || continue
   echo "Deleting group: $group"
-  groupdel "$group"
+  sudo groupdel "$group"
 done
