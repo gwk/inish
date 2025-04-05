@@ -25,6 +25,12 @@ sqlite_src_dir="${sqlite_src_gz%.tar.gz}"
 
 [[ -f "$sqlite_src_gz" ]] || curl -o "$sqlite_src_gz" "$sqlite_src_url"
 
+dl_sha3=$(sha3sum "$sqlite_src_gz")
+
+if [[ "$dl_sha3" == "$sqlite_sha3" ]]; then
+  fail "Downloaded SQLite source archive SHA3 does not match expected value: '$sqlite_sha3' != '$dl_sha3'."
+fi
+
 rm -rf "$sqlite_src_dir"
 tar -xzf "$sqlite_src_gz"
 
@@ -34,28 +40,30 @@ cd "$sqlite_src_dir"
 mkdir _build
 cd _build
 
+# SQLite transitioned to the "autosetup" build system in 3.49.
+# This is an obscure, Tcl-based system that they bundle into the "configure script" amalgamation.
+# Use `../configure --help` to see the available options.
+
+configure_flags=(
+  --all
+)
+
 cflags=(
   -DSQLITE_DEFAULT_MEMSTATUS=0 # Disable memory tracking interfaces to speed up sqlite3_malloc().
   -DSQLITE_DEFAULT_WAL_SYNCHRONOUS=1 # WAL mode defaults to PRAGMA synchronous=NORMAL instead of FULL. Faster and still safe.
   #-DSQLITE_DQS=0 # Disables double-quoted string literals, which breaks sloppy 3rd party tools.
   -DSQLITE_ENABLE_DBSTAT_VTAB
   -DSQLITE_ENABLE_EXPLAIN_COMMENTS
-  -DSQLITE_ENABLE_FTS5
-  -DSQLITE_ENABLE_GEOPOLY
   -DSQLITE_ENABLE_NULL_TRIM
   -DSQLITE_ENABLE_PREUPDATE_HOOK
-  -DSQLITE_ENABLE_RBU
-  -DSQLITE_ENABLE_RTREE
-  -DSQLITE_ENABLE_SESSION
   -DSQLITE_LIKE_DOESNT_MATCH_BLOBS # LIKE and GLOB operators always return FALSE if either operand is a BLOB. Speeds up LIKE.
   -DSQLITE_OMIT_AUTOINIT # Helps many API calls run a little faster.
   -DSQLITE_OMIT_DEPRECATED
   #-DSQLITE_OMIT_SHARED_CACHE # Shared cache is a deprecated feature, but the Python sqlite3 links to it.
   -DSQLITE_STRICT_SUBTYPE=1
   -DSQLITE_THREADSAFE=1 # Default "serialized" mode. Safe for use in multithreaded environment.
-  -I/opt/homebrew/opt/readline/include
-  -Os
 )
+
 
 export CFLAGS="${cflags[@]}"
 
@@ -63,5 +71,9 @@ export CFLAGS="${cflags[@]}"
 make
 sudo make install
 
-
-# PRODUCT,3.47.1,2024/sqlite-autoconf-3470100.tar.gz,3328564,c6c1756fbeb1e34e0ee31f8609bfc1fd4630b3faadde71a28ad3a55df259d854
+set +x
+echo
+printf '\nsqlite version: '
+./sqlite3 -version
+printf '\ncompile options: '
+./sqlite3 ':memory:' 'PRAGMA compile_options;'
