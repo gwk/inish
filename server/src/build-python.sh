@@ -21,23 +21,23 @@ tar --xz -xf $python_xz
 
 [[ -d "$python_src_dir" ]] || fail "Missing Python source directory: $python_src_dir."
 
-cd $python_src_dir
+cd "$python_src_dir"
 mkdir _build
 cd _build
 
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 export CFLAGS='-I/usr/local/include'
-export LDFLAGS='-L/usr/local/lib -Wl,-rpath /usr/local/lib'
+export LDFLAGS='-L/usr/local/lib -Wl,-rpath,/usr/local/lib'
 export CC=clang
 export CXX=clang++
 export LD=clang
 
 time ../configure \
- --enable-optimizations \
- --with-lto \
- --enable-loadable-sqlite-extensions \
- --with-computed-gotos \
- --with-pkg-config=yes
+  --with-pkg-config=yes \
+  --enable-loadable-sqlite-extensions \
+  --enable-optimizations \
+  --with-lto \
+  --with-computed-gotos \
 
 # Note: we explicitly specify computed gotos so that if the compiler does not support them, the build will fail.
 # Doing so also makes it more obvious from sysconfig results that computed gotos are enabled.
