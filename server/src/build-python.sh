@@ -35,7 +35,6 @@ export LD=clang
 time ../configure \
   --with-pkg-config=yes \
   --enable-loadable-sqlite-extensions \
-  --enable-optimizations \
   --with-lto \
   --with-computed-gotos \
   --with-sqlite3
