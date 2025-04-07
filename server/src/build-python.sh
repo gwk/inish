@@ -38,9 +38,11 @@ time ../configure \
   --enable-optimizations \
   --with-lto \
   --with-computed-gotos \
+  --with-sqlite3
 
 # Note: we explicitly specify computed gotos so that if the compiler does not support them, the build will fail.
 # Doing so also makes it more obvious from sysconfig results that computed gotos are enabled.
+# We explicitly specify sqlite3 so that the build will fail if it is not found.
 
 parallel=-j$(nproc)
 time make $parallel
