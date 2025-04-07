@@ -16,7 +16,7 @@ cd "$src_dir"
 
 [[ -f "$python_xz" ]] || curl -O "$python_src_url"
 
-rm -rf "$python_src_dir"
+sudo rm -rf "$python_src_dir"
 tar --xz -xf $python_xz
 
 [[ -d "$python_src_dir" ]] || fail "Missing Python source directory: $python_src_dir."
