@@ -53,4 +53,5 @@ hash -r # Make sure the new python is available.
 
 # Set site packages to group-writable so that operator can run pip without sudo which causes warnings.
 sudo chmod -R g+w /usr/local/lib/python${py_version}/site-packages
+sudo chmod g+w /usr/local/bin
 pip install -U pip
