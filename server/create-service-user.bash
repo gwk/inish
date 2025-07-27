@@ -38,7 +38,7 @@ set -x
 
 # Create user.
 sudo useradd \
-  --comment "Service account for ${NAME}." \
+  --comment "Service account for ${NAME}" \
   --shell /sbin/nologin \
   --create-home \
   --home-dir "${SERVICE_HOME}" \
