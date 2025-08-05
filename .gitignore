@@ -19,3 +19,5 @@ server/src/Python-*.tar.xz
 server/src/Python-*/
 server/src/sqlite-autoconf-*.tar.gz
 server/src/sqlite-autoconf-*/
+server/src/litestream-*/
+server/src/litestream-*.zip
