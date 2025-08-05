@@ -10,29 +10,29 @@ src_dir=$(dirname $0)
 cd "$src_dir"
 
 sqlite_latest_product_csv=$(curl -sS https://www.sqlite.org/download.html \
- | grep --max-count=1 --regexp='^PRODUCT,.*/sqlite-autoconf-.*\.tar\.gz')
+ | grep --max-count=1 --regexp='^PRODUCT,.*/sqlite-src-.*\.zip')
 
 echo "$sqlite_latest_product_csv"
 
 sqlite_version=$(echo "$sqlite_latest_product_csv" | cut -d, -f2)
-sqlite_gz_remote_path=$(echo "$sqlite_latest_product_csv" | cut -d, -f3)
+sqlite_zip_remote_path=$(echo "$sqlite_latest_product_csv" | cut -d, -f3)
 sqlite_size=$(echo "$sqlite_latest_product_csv" | cut -d, -f4)
 sqlite_sha3=$(echo "$sqlite_latest_product_csv" | cut -d, -f5)
 
-sqlite_src_gz=$(basename "$sqlite_gz_remote_path")
-sqlite_src_url="https://www.sqlite.org/$sqlite_gz_remote_path"
-sqlite_src_dir="${sqlite_src_gz%.tar.gz}"
+sqlite_src_zip=$(basename "$sqlite_zip_remote_path")
+sqlite_src_url="https://www.sqlite.org/$sqlite_zip_remote_path"
+sqlite_src_dir="${sqlite_src_zip%.zip}"
 
-[[ -f "$sqlite_src_gz" ]] || curl -o "$sqlite_src_gz" "$sqlite_src_url"
+[[ -f "$sqlite_src_zip" ]] || curl -o "$sqlite_src_zip" "$sqlite_src_url"
 
-dl_sha3=$(sha3sum "$sqlite_src_gz")
+  dl_sha3=$(sha3sum "$sqlite_src_zip")
 
 if [[ "$dl_sha3" == "$sqlite_sha3" ]]; then
   fail "Downloaded SQLite source archive SHA3 does not match expected value: '$sqlite_sha3' != '$dl_sha3'."
 fi
 
 rm -rf "$sqlite_src_dir"
-tar -xzf "$sqlite_src_gz"
+unzip -q "$sqlite_src_zip"
 
 [[ -d "$sqlite_src_dir" ]] || fail "Missing SQLite source directory: '$sqlite_src_dir'."
 
@@ -68,8 +68,9 @@ cflags=(
 export CFLAGS="${cflags[@]}"
 
 ../configure
-make
-sudo make install
+gmake all sqlite3_rsync
+sudo gmake install
+sudo install sqlite3_rsync /usr/local/bin
 
 set +x
 echo
@@ -77,3 +78,4 @@ printf '\nsqlite version: '
 ./sqlite3 -version
 printf '\ncompile options: '
 ./sqlite3 ':memory:' 'PRAGMA compile_options;'
+which sqlite3_rsync
