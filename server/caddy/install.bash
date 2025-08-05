@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-function fail() { echo "$1" >&2; exit 1; }
+function fail() { echo "Error: $@" >&2; exit 1; }
 
 src_dir=$(dirname $0)
 cd "$src_dir"
