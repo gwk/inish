@@ -57,7 +57,7 @@ cflags=(
   -DSQLITE_ENABLE_NULL_TRIM
   -DSQLITE_ENABLE_PREUPDATE_HOOK
   -DSQLITE_LIKE_DOESNT_MATCH_BLOBS # LIKE and GLOB operators always return FALSE if either operand is a BLOB. Speeds up LIKE.
-  -DSQLITE_OMIT_AUTOINIT # Helps many API calls run a little faster.
+  #-DSQLITE_OMIT_AUTOINIT # Helps many API calls run a little faster. sqlite3_rsync requires auto-init as of 3.50.4.
   -DSQLITE_OMIT_DEPRECATED
   #-DSQLITE_OMIT_SHARED_CACHE # Shared cache is a deprecated feature, but the Python sqlite3 links to it.
   -DSQLITE_STRICT_SUBTYPE=1
