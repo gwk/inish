@@ -48,6 +48,15 @@ configure_flags=(
   --all
 )
 
+if [[ $(uname) == 'Darwin' ]]; then
+  if [[ -d /opt/homebrew/opt/readline ]]; then
+    configure_flags+=('--with-readline-cflags=-I/opt/homebrew/opt/readline/include')
+    configure_flags+=('--with-readline-ldflags=-L/opt/homebrew/opt/readline/lib -lreadline -lncurses')
+  else
+    echo "Warning: readline not found in /opt/homebrew/opt/readline. sqlite3_rsync will not be built with readline support."
+  fi
+fi
+
 cflags=(
   -DSQLITE_DEFAULT_MEMSTATUS=0 # Disable memory tracking interfaces to speed up sqlite3_malloc().
   -DSQLITE_DEFAULT_WAL_SYNCHRONOUS=1 # WAL mode defaults to PRAGMA synchronous=NORMAL instead of FULL. Faster and still safe.
@@ -67,7 +76,8 @@ cflags=(
 
 export CFLAGS="${cflags[@]}"
 
-../configure
+../configure "${configure_flags[@]}"
+
 gmake all sqlite3_rsync
 sudo gmake install
 sudo install sqlite3_rsync /usr/local/bin
