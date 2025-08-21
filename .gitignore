@@ -12,6 +12,7 @@ _misc/
 todo.md
 
 server/caddy/download/
+server/vector/download/
 
 server/src/litestream-main.zip
 server/src/litestream-main/
