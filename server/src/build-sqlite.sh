@@ -6,6 +6,8 @@ set -x
 
 fail() { echo "Error: $@" 1>&2; exit 1; }
 
+which clang gmake sha3sum || fail "Missing required tools."
+
 src_dir=$(dirname $0)
 cd "$src_dir"
 
