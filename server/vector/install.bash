@@ -14,30 +14,25 @@ case "${machine_arch}" in
   "x86_64"|"amd64")
     vector_arch="x86_64" ;;
   "aarch64"|"arm64")
-    vector_arch="arm64" ;;
+    vector_arch="aarch64" ;;
   *)
     fail "Unsupported architecture: ${machine_arch}" ;;
 esac
 
 set -x
 
-vector_v_version=$(curl -s https://api.github.com/repos/vectordotdev/vector/releases/latest | jq -r '.tag_name')
-vector_version=${vector_v_version#v} # Remove "v" prefix.
+mkdir -p download
+cd download
+rm -f vector*.tar.gz
 
-vector_dl_name="vector-${vector_version}-${vector_arch}-unknown-linux-gnu.tar.gz"
-vector_dl_url="https://github.com/vectordotdev/vector/releases/download/${vector_v_version}/${vector_dl_name}"
-# https://github.com/vectordotdev/vector/releases/download/v0.49.0/vector-0.49.0-x86_64-unknown-linux-gnu.tar.gz
+# TODO: support platforms other than Linux.
+
+python3 -m inish.github download-release vectordotdev/vector -name 'v\d+\.\d+\.\d+' -assets "$vector_arch-unknown-linux-gnu\.tar\.gz"
+
+vector_dl_name=$(ls vector*.tar.gz)
+[[ -n "$vector_dl_name" ]] || fail "No vector archive found."
+
+tar -xzf "${vector_dl_name}"
 
 vector_dl_dir="vector-${vector_arch}-unknown-linux-gnu"
-#^ Note that the decompressed directory name does not contain the version number.
-
-mkdir -p download
-rm -rf "download/${vector_dl_dir}"
-
-if ! test -f "download/${vector_dl_name}"; then
-  curl -L -o "download/${vector_dl_name}" "${vector_dl_url}"
-fi
-
-tar -xzf "download/${vector_dl_name}" -C download
-
-sudo install "download/${vector_dl_dir}/bin/vector" /usr/local/bin
+sudo install "${vector_dl_dir}/bin/vector" /usr/local/bin
