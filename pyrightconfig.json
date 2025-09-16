@@ -1,0 +1,16 @@
+{
+  "reportAny": false,
+  "reportArgumentType": false,
+  "reportAssignmentType": false,
+  "reportDeprecated": false,
+  "reportExplicitAny": false,
+  "reportPossiblyUnboundVariable": false,
+  "reportPrivateImportUsage": false,
+  "reportPrivateLocalImportUsage": false,
+  "reportTypedDictNotRequiredAccess": false,
+  "reportUnknownArgumentType": false,
+  "reportUnknownLambdaType": false,
+  "reportUnknownMemberType": false,
+  "reportUnknownVariableType": false,
+  "reportUnusedCallResult": false,
+}
