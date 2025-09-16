@@ -1,0 +1,5 @@
+{
+  "search.exclude": {
+    "server/src/sqlite-src-*/": true
+  }
+}
