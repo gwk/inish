@@ -2,14 +2,15 @@
 # Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 set -euo pipefail
-set -x
+
+cd "$(dirname $0)"
 
 fail() { echo "Error: $@" 1>&2; exit 1; }
 
+set -x
+
 which clang gmake sha3sum || fail "Missing required tools."
 
-src_dir=$(dirname $0)
-cd "$src_dir"
 
 sqlite_latest_product_csv=$(curl -sS https://www.sqlite.org/download.html \
  | grep --max-count=1 --regexp='^PRODUCT,.*/sqlite-src-.*\.zip')

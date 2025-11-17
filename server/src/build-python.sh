@@ -2,9 +2,12 @@
 # Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 set -euo pipefail
-set -x
+
+cd "$(dirname $0)"
 
 fail() { echo "Error: $@" 1>&2; exit 1; }
+
+set -x
 
 py_version="3.14"
 py_point_version="3.14.0"
@@ -12,8 +15,6 @@ python_xz="Python-$py_point_version.tar.xz"
 python_src_url="https://www.python.org/ftp/python/$py_point_version/$python_xz"
 python_src_dir="Python-$py_point_version"
 
-src_dir=$(dirname $0)
-cd "$src_dir"
 
 [[ -f "$python_xz" ]] || curl -O "$python_src_url"
 

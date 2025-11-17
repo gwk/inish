@@ -2,10 +2,10 @@
 # Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 set -euo pipefail
-set -x
 
-src_dir=$(dirname $0)
-cd "$src_dir"
+cd "$(dirname $0)"
+
+set -x
 
 litestream_commit="af076fc9f08ee5c81f9fc8d03c2df76dd2336eb4"
 litestream_dir=litestream-$litestream_commit

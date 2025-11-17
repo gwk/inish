@@ -3,6 +3,8 @@
 
 set -euo pipefail
 
+cd "$(dirname $0)"
+
 ./build-sqlite.sh
 ./build-python.sh
 ./build-litestream.sh
