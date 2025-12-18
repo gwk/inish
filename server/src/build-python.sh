@@ -10,7 +10,7 @@ fail() { echo "Error: $@" 1>&2; exit 1; }
 set -x
 
 py_version="3.14"
-py_point_version="3.14.1"
+py_point_version="3.14.2"
 python_xz="Python-$py_point_version.tar.xz"
 python_src_url="https://www.python.org/ftp/python/$py_point_version/$python_xz"
 python_src_dir="Python-$py_point_version"
