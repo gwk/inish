@@ -1,0 +1,87 @@
+# Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
+
+from b2sdk.v3 import B2Api, Bucket, FullApplicationKey, InMemoryAccountInfo
+from pithy.argparse import CommandParser, Namespace
+from pithy.frozendicts import frozendict
+from pithy.fs import path_exists
+from pithy.path import path_dir_or_dot
+
+from .capabilities import all_capabilities_and_groups, file_ro_capabilities, file_rw_capabilities
+from .creds import B2Creds
+
+
+def main() -> None:
+  parser = CommandParser(description='B2 application key management tool.')
+
+  list_cmd = parser.add_command(main_list)
+  list_cmd.add_argument('-creds', required=True, help='Path to a credentials JSON file that can list keys.')
+
+  create_cmd = parser.add_command(main_create)
+  create_cmd.add_argument('name', help='The application key name.')
+  create_cmd.add_argument('-output', required=True, help='Path to output the generated key JSON.')
+  create_cmd.add_argument('-creds', required=True,
+    help='Path to a credentials JSON file that can list buckets and create keys.')
+  create_cmd.add_argument('-buckets', nargs='+', required=True, help='Names of the buckets.')
+  create_cmd.add_argument('-capabilities', nargs='+', required=True,
+    help='Capabilities for the key. Special values: "file-ro", "file-rw".')
+
+  parser.parse_and_run_command()
+
+
+def main_list(args:Namespace) -> None:
+  'List application keys.'
+
+  if not path_exists(args.creds, follow=True):
+    exit(f'Error: Credentials path does not exist: {args.creds!r}.')
+
+  creds = B2Creds.load(args.creds)
+  b2 = B2Api(InMemoryAccountInfo()) # type: ignore[no-untyped-call]
+  b2.authorize_account(application_key_id=creds.key_id, application_key=creds.key_secret.val)
+
+  keys = b2.list_keys()
+  for key in keys:
+    print(key.as_dict()) # type: ignore[no-untyped-call]
+
+
+def main_create(args:Namespace) -> None:
+  'Create a new application key.'
+
+  if not path_exists(args.creds, follow=True):
+    exit(f'Error: Credentials path does not exist: {args.creds!r}.')
+
+  if path_exists(args.output, follow=False):
+    exit(f'Error: Output path already exists: {args.output!r}.')
+
+  if not path_exists(path_dir_or_dot(args.output), follow=True):
+    exit(f'Error: Output directory does not exist: {path_dir_or_dot(args.output)!r}.')
+
+  capabilities:list[str] = []
+  for cap in args.capabilities:
+    if cap not in all_capabilities_and_groups:
+      exit(f'Error: Invalid capability: {cap!r}.')
+    match cap:
+      case 'file-ro': capabilities.extend(file_ro_capabilities)
+      case 'file-rw': capabilities.extend(file_rw_capabilities)
+      case _: capabilities.append(cap)
+
+  creds = B2Creds.load(args.creds)
+  b2 = B2Api(InMemoryAccountInfo()) # type: ignore[no-untyped-call]
+  b2.authorize_account(application_key_id=creds.key_id, application_key=creds.key_secret.val)
+
+  bucket_names = args.buckets
+  assert bucket_names
+  buckets:dict[str,str] = {}
+  for bucket_name in bucket_names:
+    bucket:Bucket = b2.get_bucket_by_name(bucket_name)
+    buckets[bucket.name] = bucket.id_
+
+  bucket_ids = list(buckets.values())
+  for name, id in buckets.items():
+    print(f'bucket {name!r} -> {id!r}')
+
+  key_info:FullApplicationKey = b2.create_key(key_name=args.name, capabilities=capabilities, bucket_ids=bucket_ids)
+  creds = B2Creds.from_b2(key_info, frozendict(buckets))
+  creds.save(args.output)
+
+
+if __name__ == '__main__': main()
