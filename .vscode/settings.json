@@ -1,5 +1,7 @@
 {
   "search.exclude": {
     "server/src/sqlite-src-*/": true
-  }
+  },
+  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.ignore": ["server/src/litestream*"]
 }
