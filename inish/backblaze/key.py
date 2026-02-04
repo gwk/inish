@@ -6,7 +6,7 @@ from pithy.frozendicts import frozendict
 from pithy.fs import path_exists
 from pithy.path import path_dir_or_dot
 
-from .capabilities import all_capabilities_and_groups, file_ro_capabilities, file_rw_capabilities
+from .capabilities import all_capabilities_and_groups, file_ro_capabilities, file_rw_capabilities, file_rwd_capabilities
 from .creds import B2Creds
 
 
@@ -23,7 +23,7 @@ def main() -> None:
     help='Path to a credentials JSON file that can list buckets and create keys.')
   create_cmd.add_argument('-buckets', nargs='+', required=True, help='Names of the buckets.')
   create_cmd.add_argument('-capabilities', nargs='+', required=True,
-    help='Capabilities for the key. Special values: "file-ro", "file-rw".')
+    help='Capabilities for the key. Special values: "file-ro", "file-rw", "file-rwd".')
 
   parser.parse_and_run_command()
 
@@ -62,6 +62,7 @@ def main_create(args:Namespace) -> None:
     match cap:
       case 'file-ro': capabilities.extend(file_ro_capabilities)
       case 'file-rw': capabilities.extend(file_rw_capabilities)
+      case 'file-rwd': capabilities.extend(file_rwd_capabilities)
       case _: capabilities.append(cap)
 
   creds = B2Creds.load(args.creds)
