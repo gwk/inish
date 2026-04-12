@@ -3,13 +3,13 @@
 
 set -euo pipefail
 
-cd "$(dirname $0)"
+cd "$(dirname $0)/../_build"
 
 fail() { echo "Error: $@" 1>&2; exit 1; }
 
 set -x
 
-which clang gmake sha3sum || fail "Missing required tools."
+which sha3sum || fail "Missing required tool: sha3sum."
 
 
 sqlite_latest_product_csv=$(curl -sS https://www.sqlite.org/download.html \
@@ -61,6 +61,7 @@ if [[ $(uname) == 'Darwin' ]]; then
 fi
 
 cflags=(
+  -O3
   -DSQLITE_DEFAULT_MEMSTATUS=0 # Disable memory tracking interfaces to speed up sqlite3_malloc().
   -DSQLITE_DEFAULT_WAL_SYNCHRONOUS=1 # WAL mode defaults to PRAGMA synchronous=NORMAL instead of FULL. Faster and still safe.
   #-DSQLITE_DQS=0 # Disables double-quoted string literals, which breaks sloppy 3rd party tools.
@@ -81,6 +82,7 @@ export CFLAGS="${cflags[@]}"
 
 ../configure "${configure_flags[@]}"
 
+gmake clean
 gmake all sqlite3_rsync
 sudo gmake install
 sudo install sqlite3_rsync /usr/local/bin
