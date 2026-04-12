@@ -11,14 +11,14 @@ _build/
 _misc/
 todo.md
 
-server/caddy/download/
-server/vector/download/
+linux/caddy/download/
+linux/vector/download/
 
-server/src/litestream-main.zip
-server/src/litestream-main/
-server/src/Python-*.tar.xz
-server/src/Python-*/
-server/src/sqlite-src-*/
-server/src/sqlite-src-*.zip
-server/src/litestream-*/
-server/src/litestream-*.zip
+linux/src/litestream-main.zip
+linux/src/litestream-main/
+linux/src/Python-*.tar.xz
+linux/src/Python-*/
+linux/src/sqlite-src-*/
+linux/src/sqlite-src-*.zip
+linux/src/litestream-*/
+linux/src/litestream-*.zip

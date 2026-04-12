@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # Enable the operator user.
-# curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/gwk/inish/refs/heads/main/server/init/setup-operator-user.bash | bash
+# curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/gwk/inish/refs/heads/main/linux/init/setup-operator-user.bash | bash
 
 set -euxo pipefail
 
