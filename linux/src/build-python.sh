@@ -38,8 +38,8 @@ time ../configure \
   --with-pkg-config=yes \
   --enable-loadable-sqlite-extensions \
   --enable-optimizations \
-  --with-lto \
   --with-computed-gotos \
+  --with-lto \
   --with-sqlite3
 
 # Note: we explicitly specify computed gotos so that if the compiler does not support them, the build will fail.
