@@ -3,9 +3,11 @@
 
 set -euo pipefail
 
-cd "$(dirname $0)/../_build"
-
 fail() { echo "Error: $@" 1>&2; exit 1; }
+
+cd "$(dirname $0)/.." # inish root dir.
+mkdir -p _build
+cd _build
 
 set -x
 
@@ -91,6 +93,6 @@ set +x
 echo
 printf '\nsqlite version: '
 ./sqlite3 -version
-printf '\ncompile options: '
+echo
 ./sqlite3 ':memory:' 'PRAGMA compile_options;'
 which sqlite3_rsync
