@@ -12,7 +12,7 @@ cd _build
 set -x
 
 py_version="3.14"
-py_point_version="3.14.2"
+py_point_version="3.14.4"
 python_xz="Python-$py_point_version.tar.xz"
 python_src_url="https://www.python.org/ftp/python/$py_point_version/$python_xz"
 python_src_dir="Python-$py_point_version"
