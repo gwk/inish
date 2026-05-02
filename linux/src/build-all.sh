@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-cd "$(dirname $0)../.."
+cd "$(dirname $0)/../.." # inish root.
 
 common/build-sqlite.sh
 linux/src/build-python.sh

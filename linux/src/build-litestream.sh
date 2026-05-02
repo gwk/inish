@@ -3,7 +3,11 @@
 
 set -euo pipefail
 
-cd "$(dirname $0)"
+fail() { echo "Error: $@" 1>&2; exit 1; }
+
+cd "$(dirname $0)/../.." # inish root dir.
+mkdir -p _build
+cd _build
 
 set -x
 
