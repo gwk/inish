@@ -1,0 +1,25 @@
+// See: https://zed.dev/docs/configuring-zed#settings-files
+{
+  "project_name": "inish",
+  "file_scan_exclusions": [],
+  "tab_size": 2,
+  "languages": {
+    "CSS": {
+      "format_on_save": "off",
+    },
+    "Just": {
+      "format_on_save": "off",
+    },
+    "Python": {
+      "formatter": {
+        "external": {
+          "command": "isort",
+          "arguments": ["-", "--stdout"],
+        },
+      },
+    },
+    "TOML": {
+      "format_on_save": "off",
+    },
+  },
+}
