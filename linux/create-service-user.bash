@@ -54,3 +54,6 @@ sudo restorecon -R "${SERVICE_HOME}"
 # Allow operator to read and write to the service home directory.
 sudo chmod 770 "${SERVICE_HOME}"
 sudo usermod --append --groups "${NAME}" operator
+
+(rm "${SERVICE_HOME}/.*") # Remove the bash, zsh, and .cloud-locale-test.skip files.
+#^ Run in a subshell so that operator is recognized immediately as member of the group.
