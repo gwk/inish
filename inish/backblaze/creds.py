@@ -1,17 +1,19 @@
 # Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Mapping, Self
 
 from b2sdk._internal.application_key import FullApplicationKey
 from pithy.frozendicts import frozendict
 from pithy.json import JsonDict, load_json, write_json
 from pithy.secrets import SecretStr
+from pithy.transtruct import Transtructor
 
 
 hex_re = re.compile(r'^[0-9a-fA-F]+$')
 b64_re = re.compile(r'^[0-9a-zA-Z+/=]+$')
+
 
 @dataclass(frozen=True)
 class B2Creds:
@@ -22,8 +24,8 @@ class B2Creds:
   key_id: str
   key_secret: SecretStr
   #endpoint: str
-  buckets: frozendict[str,str]
-  capabilities: tuple[str,...]
+  buckets: frozendict[str,str] = field(default_factory=frozendict)
+  capabilities: tuple[str,...] = ()
 
 
   def __post_init__(self) -> None:
@@ -53,13 +55,7 @@ class B2Creds:
     with open(path) as f:
       creds_dict = load_json(f)
 
-    return cls(
-      key_name=creds_dict['key_name'],
-      key_id=creds_dict['key_id'],
-      key_secret=SecretStr(creds_dict['key_secret']),
-      #endpoint=creds_dict['endpoint'],
-      buckets=frozendict(creds_dict.get('buckets', {})),
-      capabilities=tuple(sorted(creds_dict.get('capabilities', ()))))
+    return Transtructor().transtruct(cls, creds_dict)
 
 
   def save(self, path:str) -> None:
