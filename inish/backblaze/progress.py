@@ -5,7 +5,7 @@ from time import monotonic
 from types import TracebackType
 
 from b2sdk.v3 import AbstractProgressListener
-from pithy.string import format_byte_count
+from pithy.strings import format_byte_count
 
 
 class ProgressListener(AbstractProgressListener):

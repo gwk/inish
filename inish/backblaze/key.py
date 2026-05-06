@@ -1,9 +1,11 @@
 # Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
+from argparse import Namespace
+
 from b2sdk.v3 import B2Api, Bucket, FullApplicationKey, InMemoryAccountInfo
-from pithy.argparse import CommandParser, Namespace
+from pithy.argparser import CommandParser
+from pithy.filestatus import path_exists
 from pithy.frozendicts import frozendict
-from pithy.fs import path_exists
 from pithy.path import path_dir_or_dot
 
 from .capabilities import all_capabilities_and_groups, file_ro_capabilities, file_rw_capabilities, file_rwd_capabilities

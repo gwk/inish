@@ -1,6 +1,6 @@
 # Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
-from pithy.argparse import CommandParser
+from pithy.argparser import CommandParser
 
 from . import download_release
 

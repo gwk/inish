@@ -5,11 +5,11 @@ TEST: pym inish.github download-release vectordotdev/vector -name 'v\d+\.\d+\.\d
 '''
 
 import re
+from argparse import Namespace
 from hashlib import sha256
 from typing import Iterable
 
 import requests
-from pithy.argparse import Namespace
 from pithy.io import errL
 
 
