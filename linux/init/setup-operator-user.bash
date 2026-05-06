@@ -1,7 +1,12 @@
 #! /usr/bin/env bash
 
 # Enable the operator user.
+
 # curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/gwk/inish/refs/heads/main/linux/init/setup-operator-user.bash | bash
+
+# The operator user is intended to be used interactively to administer the server.
+# It has sudo and systemd journal permissions.
+# The primary group of operator is `root`.
 
 set -euxo pipefail
 
@@ -14,6 +19,7 @@ sudo semanage fcontext -a -t user_home_dir_t '/home/operator(/.*)?'
 sudo semanage fcontext -a -t ssh_home_t '/home/operator/.ssh(/.*)?'
 sudo chown -R operator:root /home/operator
 sudo restorecon -r /home/operator
+sudo chmod 700 /home/operator
 
 sudo usermod --home /home/operator operator
 sudo chsh -s $(which zsh) operator # Change shell from nologin to zsh.
