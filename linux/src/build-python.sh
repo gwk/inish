@@ -50,6 +50,8 @@ time ../configure \
 # Doing so also makes it more obvious from sysconfig results that computed gotos are enabled.
 # We explicitly specify sqlite3 so that the build will fail if it is not found.
 
+export PIP_ROOT_USER_ACTION=ignore
+
 parallel=-j$(nproc)
 time make $parallel
 sudo time make $parallel install
