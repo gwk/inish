@@ -36,6 +36,8 @@ export CC=clang
 export CXX=clang++
 export LD=clang
 
+umask 022
+
 time ../configure \
   --with-pkg-config=yes \
   --enable-loadable-sqlite-extensions \

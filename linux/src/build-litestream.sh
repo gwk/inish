@@ -22,5 +22,7 @@ rm -rf $litestream_dir
 unzip -q $litestream_zip
 cd $litestream_dir
 
+umask 022
+
 go build ./cmd/litestream
 sudo install litestream /usr/local/bin

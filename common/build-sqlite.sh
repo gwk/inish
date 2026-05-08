@@ -82,6 +82,8 @@ cflags=(
 
 export CFLAGS="${cflags[@]}"
 
+umask 022
+
 ../configure "${configure_flags[@]}"
 
 gmake clean
