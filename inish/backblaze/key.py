@@ -7,6 +7,7 @@ from pithy.argparser import CommandParser
 from pithy.filestatus import path_exists
 from pithy.frozendicts import frozendict
 from pithy.path import path_dir_or_dot
+from pithy.type_utils import req_type
 
 from .capabilities import all_capabilities_and_groups, file_ro_capabilities, file_rw_capabilities, file_rwd_capabilities
 from .creds import B2Creds
@@ -20,7 +21,7 @@ def main() -> None:
 
   create_cmd = parser.add_command(main_create)
   create_cmd.add_argument('name', help='The application key name.')
-  create_cmd.add_argument('-output', required=True, help='Path to output the generated key JSON.')
+  create_cmd.add_argument('-output', required=False, help='Path to output the generated key JSON; defaults to "{name}.json".')
   create_cmd.add_argument('-creds', required=True,
     help='Path to a credentials JSON file that can list buckets and create keys.')
   create_cmd.add_argument('-buckets', nargs='+', required=True, help='Names of the buckets.')
@@ -51,11 +52,13 @@ def main_create(args:Namespace) -> None:
   if not path_exists(args.creds, follow=True):
     exit(f'Error: Credentials path does not exist: {args.creds!r}.')
 
-  if path_exists(args.output, follow=False):
-    exit(f'Error: Output path already exists: {args.output!r}.')
+  out_path = args.output or f'{args.name}.json'
 
-  if not path_exists(path_dir_or_dot(args.output), follow=True):
-    exit(f'Error: Output directory does not exist: {path_dir_or_dot(args.output)!r}.')
+  if path_exists(out_path, follow=False):
+    exit(f'Error: Output path already exists: {out_path!r}.')
+
+  if not path_exists(path_dir_or_dot(out_path), follow=True):
+    exit(f'Error: Output directory does not exist: {path_dir_or_dot(out_path)!r}.')
 
   capabilities:list[str] = []
   for cap in args.capabilities:
@@ -76,7 +79,7 @@ def main_create(args:Namespace) -> None:
   buckets:dict[str,str] = {}
   for bucket_name in bucket_names:
     bucket:Bucket = b2.get_bucket_by_name(bucket_name)
-    buckets[bucket.name] = bucket.id_
+    buckets[bucket_name] = req_type(bucket.id_, str)
 
   bucket_ids = list(buckets.values())
   for name, id in buckets.items():
@@ -84,7 +87,7 @@ def main_create(args:Namespace) -> None:
 
   key_info:FullApplicationKey = b2.create_key(key_name=args.name, capabilities=capabilities, bucket_ids=bucket_ids)
   creds = B2Creds.from_b2(key_info, frozendict(buckets))
-  creds.save(args.output)
+  creds.save(out_path)
 
 
 if __name__ == '__main__': main()
