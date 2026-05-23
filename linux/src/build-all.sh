@@ -7,4 +7,3 @@ cd "$(dirname $0)/../.." # inish root.
 
 common/build-sqlite.sh
 linux/src/build-python.sh
-linux/src/build-litestream.sh
