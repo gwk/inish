@@ -1,4 +1,4 @@
-# Inish project
+# Inish Agents Guide
 
 Inish is a toolkit for developing and managing linux web servers.
 
@@ -34,3 +34,7 @@ The source code for those packages should be accessible from this repo root via:
 * `../pithy/iotest_/iotest`
 * `../pithy/utest_/utest`
 * `../ptihy/tolkien_/tolkien`
+
+## Pithy Guidelines
+The following is the agents prompt for `pithy`. We use the same style and guidelines throughout this project.
+@../pithy/AGENTS.md
