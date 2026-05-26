@@ -3,10 +3,9 @@
 name = "inish"
 description = "Server initialization tools."
 
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 
-dependencies = [
-]
+dependencies = []
 
 readme = "readme.md"
 
@@ -28,33 +27,5 @@ Documentation = "https://github.com/gwk/inish/blob/main/readme.md"
 
 
 [build-system]
-requires = [
-  "hatchling",
-]
-build-backend = "hatchling.build"
-
-
-[tool.hatch.build]
-include = [
-  "inish/**/*",
-]
-exclude = [
-  "inish/**/__pycache__/**/*",
-]
-
-
-[tool.hatch.version]
-path = "inish/__about__.py"
-
-
-[tool.isort]
-atomic = true
-combine_as_imports = true
-default_section = "FIRSTPARTY"
-indent = "  "
-lines_after_imports = 2
-lines_between_sections = 1
-line_length = 128
-multi_line_output = "HANGING_INDENT_WITH_PARENTHESES"
-order_by_type = false
-use_parentheses = true
+requires = ["flit_core >= 3.12"]
+build-backend = "flit_core.buildapi"

@@ -35,3 +35,9 @@ typecheck:
 # Clear the typechecker cache.
 typecheck-clear-cache:
   rm -rf _build/mypy_cache
+
+
+# Packaging.
+
+build:
+  flit build
