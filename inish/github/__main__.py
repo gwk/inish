@@ -11,7 +11,7 @@ def main() -> None:
    downlead_release_cmd = parser.add_command(download_release)
    downlead_release_cmd.add_argument('repo', type=str)
    downlead_release_cmd.add_argument('-name', type=str, default='.+')
-   downlead_release_cmd.add_argument('-assets', nargs='+', type=str, required=True)
+   downlead_release_cmd.add_argument('-assets', nargs='*', type=str)
 
    parser.parse_and_run_command()
 
