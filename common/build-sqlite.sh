@@ -28,11 +28,11 @@ sqlite_src_zip=$(basename "$sqlite_zip_remote_path")
 sqlite_src_url="https://www.sqlite.org/$sqlite_zip_remote_path"
 sqlite_src_dir="${sqlite_src_zip%.zip}"
 
-[[ -f "$sqlite_src_zip" ]] || curl -o "$sqlite_src_zip" "$sqlite_src_url"
+[[ -f "$sqlite_src_zip" ]] || curl -f -o "$sqlite_src_zip" "$sqlite_src_url"
 
-  dl_sha3=$(sha3sum "$sqlite_src_zip")
+dl_sha3=$(sha3sum -a 256 "$sqlite_src_zip" | cut -d' ' -f1)
 
-if [[ "$dl_sha3" == "$sqlite_sha3" ]]; then
+if [[ "$dl_sha3" != "$sqlite_sha3" ]]; then
   fail "Downloaded SQLite source archive SHA3 does not match expected value: '$sqlite_sha3' != '$dl_sha3'."
 fi
 
