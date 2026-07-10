@@ -67,11 +67,15 @@ cflags=(
   -DSQLITE_DEFAULT_MEMSTATUS=0 # Disable memory tracking interfaces to speed up sqlite3_malloc().
   -DSQLITE_DEFAULT_WAL_SYNCHRONOUS=1 # WAL mode defaults to PRAGMA synchronous=NORMAL instead of FULL. Faster and still safe.
   #-DSQLITE_DQS=0 # Disables double-quoted string literals, which breaks sloppy 3rd party tools.
+  -DSQLITE_ENABLE_API_ARMOR # Detect misuse of the C API, e.g. NULL or invalid parameters, at some performance cost.
+  -DSQLITE_ENABLE_COLUMN_METADATA # Enables column origin introspection APIs; some 3rd party tools expect it.
   -DSQLITE_ENABLE_DBSTAT_VTAB
   -DSQLITE_ENABLE_EXPLAIN_COMMENTS
   -DSQLITE_ENABLE_NULL_TRIM
   -DSQLITE_ENABLE_PREUPDATE_HOOK
+  -DSQLITE_ENABLE_STAT4 # Better query planner statistics from ANALYZE.
   -DSQLITE_LIKE_DOESNT_MATCH_BLOBS # LIKE and GLOB operators always return FALSE if either operand is a BLOB. Speeds up LIKE.
+  -DSQLITE_MAX_VARIABLE_NUMBER=250000 # Matches Homebrew/Debian/Ubuntu; default is 32766. For large IN lists and bulk inserts.
   #-DSQLITE_OMIT_AUTOINIT # Helps many API calls run a little faster. sqlite3_rsync requires auto-init as of 3.50.4.
   -DSQLITE_OMIT_DEPRECATED
   #-DSQLITE_OMIT_SHARED_CACHE # Shared cache is a deprecated feature, but the Python sqlite3 links to it.
