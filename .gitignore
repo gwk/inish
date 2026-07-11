@@ -16,12 +16,3 @@ _todo.md
 
 linux/caddy/download/
 linux/vector/download/
-
-linux/src/litestream-main.zip
-linux/src/litestream-main/
-linux/src/Python-*.tar.xz
-linux/src/Python-*/
-linux/src/sqlite-src-*/
-linux/src/sqlite-src-*.zip
-linux/src/litestream-*/
-linux/src/litestream-*.zip
