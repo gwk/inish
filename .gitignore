@@ -10,7 +10,9 @@ dist/
 # Project.
 _build/
 _misc/
-todo.md
+_plan.md
+_prompt.md
+_todo.md
 
 linux/caddy/download/
 linux/vector/download/
