@@ -1,7 +1,7 @@
 // See: https://zed.dev/docs/configuring-zed#settings-files
 {
-  "project_name": "inish",
-  "file_scan_exclusions": [],
+  "file_scan_exclusions": ["**/.DS_Store"],
+  "file_scan_inclusions": ["_plan.md", "_prompt.md", "_todo.md"],
   "tab_size": 2,
   "languages": {
     "CSS": {
