@@ -5,7 +5,10 @@ description = "Server initialization tools."
 
 requires-python = ">=3.14"
 
-dependencies = []
+dependencies = [
+  "b2sdk >= 2.12.0",
+  "pithy",
+]
 
 readme = "readme.md"
 
@@ -24,6 +27,26 @@ Documentation = "https://github.com/gwk/inish/blob/main/readme.md"
 
 
 [project.scripts]
+
+
+[dependency-groups]
+dev = [
+  "isort >= 8.0.1",
+  "mypy >= 2.2.0",
+  "pyflakes >= 3.4.0",
+  "utest",
+]
+
+
+[tool.uv.workspace]
+members = ["deps/pithy/pithy_", "deps/pithy/tolkien_", "deps/pithy/utest_"]
+
+
+[tool.uv.sources]
+# Locally developed packages are resolved from the worktree linked at deps/pithy, set up by sh/deps.sh; see readme.md.
+pithy = { workspace = true }
+tolkien = { workspace = true }
+utest = { workspace = true }
 
 
 [build-system]

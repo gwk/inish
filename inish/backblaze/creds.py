@@ -55,7 +55,7 @@ class B2Creds:
     with open(path) as f:
       creds_dict = load_json(f)
 
-    return Transtructor().transtruct(cls, creds_dict)
+    return Transtructor(strict=False).transtruct(cls, creds_dict)
 
 
   def save(self, path:str) -> None:

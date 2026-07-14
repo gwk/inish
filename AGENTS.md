@@ -3,7 +3,7 @@
 Inish is a toolkit for developing and managing linux web servers.
 
 The following is the context for `pithy`, our main library dependency. We use the same style and guidelines throughout this project.
-@../pithy/main/AGENTS.md
+@deps/pithy/AGENTS.md
 
 ## Build Commands
 * `just check`: Run isort, lint, typecheck, and tests.
@@ -25,16 +25,21 @@ Same as pithy.
 Same as pithy.
 
 
+# Local Dependencies
+
+Locally developed dependency repos are symlinked into `deps/`, which is gitignored.
+`sh/deps.sh` sets the symlink for one repo; `just deps` sets all of them to the same branch, defaulting to `main`.
+
 # Pithy
 
 Pithy is a python utility library that we rely on heavily. The pithy repository contains several python source trees,
 including the `pithy` package as well as `utest` (unit testing library) `tolkien` (token data type) and others.
 The source code for those packages should be accessible from this repo root via:
-* `../pithy/main/pithy_/pithy`
-* `../pithy/main/iotest_/iotest`
-* `../pithy/main/utest_/utest`
-* `../ptihy/main/tolkien_/tolkien`
+* `deps/pithy/pithy_/pithy`
+* `deps/pithy/iotest_/iotest`
+* `deps/pithy/utest_/utest`
+* `deps/pithy/tolkien_/tolkien`
 
 ## Pithy Guidelines
 The following is the agents prompt for `pithy`. We use the same style and guidelines throughout this project.
-@../pithy/main/AGENTS.md
+@deps/pithy/AGENTS.md

@@ -13,24 +13,32 @@ agent-perms:
 # Check the codebase.
 check: isort lint typecheck test
 
+# Set all local dependency symlinks to worktrees of the given branch.
+deps branch='main':
+  sh/deps.sh pithy {{branch}}
+
+# Set local dependency symlinks, then sync the venv.
+develop: deps
+  uv sync
+
 # Sort python imports.
 isort:
-  isort inish
+  uv run isort inish
 
 link-claude-md:
   find . -name 'AGENTS.md' -print0 | xargs -0 -I {} sh -c 'ln -sf "$(basename {})" "$(dirname {})/CLAUDE.md"'
 
 # Lint python code.
 lint:
-  pyflakes inish
+  uv run pyflakes inish
 
 # Run all tests.
 test:
-  python3 -m utest inish
+  uv run python3 -m utest inish
 
 # Typecheck the project.
 typecheck:
-  mypy inish
+  uv run mypy inish
 
 # Clear the typechecker cache.
 typecheck-clear-cache:
