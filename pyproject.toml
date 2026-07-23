@@ -1,32 +1,7 @@
-[project]
+# Virtual workspace root; the inish package lives in inish_/. See pithy doc/git-worktrees.md.
 
-name = "inish"
-description = "Server initialization tools."
-
-requires-python = ">=3.14"
-
-dependencies = [
-  "b2sdk >= 2.12.0",
-  "pithy",
-]
-
-readme = "readme.md"
-
-authors = [
-  { name = "George King", email = "george@theorypractice.dev" },
-]
-dynamic = [
-  "version",
-]
-
-
-[project.urls]
-Issues = "https://github.com/gwk/inish/issues"
-Source = "https://github.com/gwk/inish"
-Documentation = "https://github.com/gwk/inish/blob/main/readme.md"
-
-
-[project.scripts]
+[tool.uv.workspace]
+members = ["inish_", "deps/pithy/pithy_", "deps/pithy/tolkien_", "deps/pithy/utest_"]
 
 
 [dependency-groups]
@@ -38,17 +13,5 @@ dev = [
 ]
 
 
-[tool.uv.workspace]
-members = ["deps/pithy/pithy_", "deps/pithy/tolkien_", "deps/pithy/utest_"]
-
-
 [tool.uv.sources]
-# Locally developed packages are resolved from the worktree linked at deps/pithy, set up by sh/deps.sh; see readme.md.
-pithy = { workspace = true }
-tolkien = { workspace = true }
 utest = { workspace = true }
-
-
-[build-system]
-requires = ["flit_core >= 3.12"]
-build-backend = "flit_core.buildapi"

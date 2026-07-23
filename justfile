@@ -7,7 +7,7 @@ list-recipes:
 
 agent-perms:
   agent-allow-r .git .gitignore .vscode .zed _build agent.md claude.md justfile mypy.ini pyproject.toml readme.md
-  agent-allow-rw common doc inish linux mac
+  agent-allow-rw common doc inish_ linux mac
   agent-deny _misc
 
 # Check the codebase.
@@ -23,22 +23,22 @@ develop: deps
 
 # Sort python imports.
 isort:
-  uv run isort inish
+  uv run isort inish_/inish
 
 link-claude-md:
   find . -name 'AGENTS.md' -print0 | xargs -0 -I {} sh -c 'ln -sf "$(basename {})" "$(dirname {})/CLAUDE.md"'
 
 # Lint python code.
 lint:
-  uv run pyflakes inish
+  uv run pyflakes inish_/inish
 
 # Run all tests.
 test:
-  uv run python3 -m utest inish
+  uv run python3 -m utest inish_/inish
 
 # Typecheck the project.
 typecheck:
-  uv run mypy inish
+  uv run mypy inish_/inish
 
 # Clear the typechecker cache.
 typecheck-clear-cache:
@@ -48,4 +48,4 @@ typecheck-clear-cache:
 # Packaging.
 
 build:
-  flit build
+  cd inish_ && flit build

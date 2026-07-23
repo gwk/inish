@@ -14,6 +14,14 @@ members = [
     "utest",
 ]
 
+[manifest.dependency-groups]
+dev = [
+    { name = "isort", specifier = ">=8.0.1" },
+    { name = "mypy", specifier = ">=2.2.0" },
+    { name = "pyflakes", specifier = ">=3.4.0" },
+    { name = "utest", editable = "deps/pithy/utest_" },
+]
+
 [[package]]
 name = "annotated-types"
 version = "0.7.0"
@@ -362,32 +370,16 @@ wheels = [
 
 [[package]]
 name = "inish"
-source = { editable = "." }
+source = { editable = "inish_" }
 dependencies = [
     { name = "b2sdk" },
     { name = "pithy" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "isort" },
-    { name = "mypy" },
-    { name = "pyflakes" },
-    { name = "utest" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "b2sdk", specifier = ">=2.12.0" },
     { name = "pithy", editable = "deps/pithy/pithy_" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "isort", specifier = ">=8.0.1" },
-    { name = "mypy", specifier = ">=2.2.0" },
-    { name = "pyflakes", specifier = ">=3.4.0" },
-    { name = "utest", editable = "deps/pithy/utest_" },
 ]
 
 [[package]]
