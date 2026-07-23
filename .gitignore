@@ -19,4 +19,5 @@ _todo.md
 /deps/
 
 linux/caddy/download/
+linux/uv/download/
 linux/vector/download/
